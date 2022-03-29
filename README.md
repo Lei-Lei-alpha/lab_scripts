@@ -9,3 +9,6 @@ Chemical weight calculator from target formula.
 
 ## [ML_LCD_readings](https://github.com/Lei-Lei-alpha/lab_scripts/tree/main/ML_LCD_readings)
 Use deep learning method to retrieve readings from images with liquid crystal display font.
+
+## Documentation page
+Visit the [documentation page](https://lei-lei-alpha.github.io/lab_scripts/) to check the usage of these scripts.
