@@ -1,0 +1,952 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get liquid display readings from video using OpenCV-Python &#8212; Useful Lab Scripts</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Use deep learning to recognise LCD readings" href="LCD_readings.html" />
+    <link rel="prev" title="Temperature programme calculator and visualiser" href="temp_prog.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Useful Lab Scripts</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="calc_chemical_weight.html">
+   Calculation of chemical weight
+   <br/>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="temp_prog.html">
+   Temperature programme calculator and visualiser
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Get liquid display readings from video using OpenCV-Python
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="LCD_readings.html">
+   Use deep learning to recognise LCD readings
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/get_reading.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/Lei-Lei-alpha/lab_scripts"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/Lei-Lei-alpha/lab_scripts/gh-pages?urlpath=tree/docs/get_reading.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-packages">
+   Import packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-reading-updates-once-per-second-we-only-need-to-extract-one-frame-per-second-from-the-video-file">
+   The reading updates once per second. We only need to extract one frame per second from the video file.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-need-to-crop-the-image-to-focus-on-the-liquid-crystal-diplay-area-this-will-save-computational-work-br">
+   We need to crop the image to focus on the liquid crystal diplay area, this will save computational work.
+   <br/>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-now-need-to-make-binary-image-from-the-cropped-image">
+   We now need to make binary image from the cropped image.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-now-need-to-make-final-bin-iamge-for-cv2-to-find-contours-br">
+   We now need to make final bin iamge for cv2 to find contours.
+   <br/>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-can-now-set-up-parameters-to-sort-the-contours-found-so-that-we-keep-our-readings-only">
+   We can now set up parameters to sort the contours found so that we keep our readings only.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#now-we-can-crop-the-image-according-to-the-textboxes">
+   Now we can crop the image according to the textboxes.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#to-batch-process-the-cropped-frames-we-need-to-make-functions">
+   To batch process the cropped frames, we need to make functions.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finally-we-can-use-the-above-defined-functions-to-batch-process-the-frames-and-save-the-detected-region-into-outs-directory">
+   Finally, we can use the above defined functions to batch process the frames and save the detected region into ./outs directory.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#now-go-to-the-outs-directory-check-the-outputs-change-parameters-and-try-again-br">
+   Now go to the ./outs directory, check the outputs. Change parameters and try again.
+   <br/>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#if-you-have-problem-with-certain-images-you-can-go-back-to-the-manual-mode-and-see-what-happened-br">
+   If you have problem with certain images, you can go back to the manual mode and see what happened.
+   <br/>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#it-is-useful-to-make-the-detected-readings-binary-so-that-it-is-easier-to-be-recognised-by-ocr-packages">
+   It is useful to make the detected readings binary so that it is easier to be recognised by OCR packages.
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Get liquid display readings from video using OpenCV-Python</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-packages">
+   Import packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-reading-updates-once-per-second-we-only-need-to-extract-one-frame-per-second-from-the-video-file">
+   The reading updates once per second. We only need to extract one frame per second from the video file.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-need-to-crop-the-image-to-focus-on-the-liquid-crystal-diplay-area-this-will-save-computational-work-br">
+   We need to crop the image to focus on the liquid crystal diplay area, this will save computational work.
+   <br/>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-now-need-to-make-binary-image-from-the-cropped-image">
+   We now need to make binary image from the cropped image.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-now-need-to-make-final-bin-iamge-for-cv2-to-find-contours-br">
+   We now need to make final bin iamge for cv2 to find contours.
+   <br/>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#we-can-now-set-up-parameters-to-sort-the-contours-found-so-that-we-keep-our-readings-only">
+   We can now set up parameters to sort the contours found so that we keep our readings only.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#now-we-can-crop-the-image-according-to-the-textboxes">
+   Now we can crop the image according to the textboxes.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#to-batch-process-the-cropped-frames-we-need-to-make-functions">
+   To batch process the cropped frames, we need to make functions.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finally-we-can-use-the-above-defined-functions-to-batch-process-the-frames-and-save-the-detected-region-into-outs-directory">
+   Finally, we can use the above defined functions to batch process the frames and save the detected region into ./outs directory.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#now-go-to-the-outs-directory-check-the-outputs-change-parameters-and-try-again-br">
+   Now go to the ./outs directory, check the outputs. Change parameters and try again.
+   <br/>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#if-you-have-problem-with-certain-images-you-can-go-back-to-the-manual-mode-and-see-what-happened-br">
+   If you have problem with certain images, you can go back to the manual mode and see what happened.
+   <br/>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#it-is-useful-to-make-the-detected-readings-binary-so-that-it-is-easier-to-be-recognised-by-ocr-packages">
+   It is useful to make the detected readings binary so that it is easier to be recognised by OCR packages.
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="get-liquid-display-readings-from-video-using-opencv-python">
+<h1>Get liquid display readings from video using OpenCV-Python<a class="headerlink" href="#get-liquid-display-readings-from-video-using-opencv-python" title="Permalink to this headline">¶</a></h1>
+<p>Written by Lei Lei<br>
+Faculty of Engineering, University of Nottingham</p>
+<div class="section" id="import-packages">
+<h2>Import packages<a class="headerlink" href="#import-packages" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;image.cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;gray&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="the-reading-updates-once-per-second-we-only-need-to-extract-one-frame-per-second-from-the-video-file">
+<h2>The reading updates once per second. We only need to extract one frame per second from the video file.<a class="headerlink" href="#the-reading-updates-once-per-second-we-only-need-to-extract-one-frame-per-second-from-the-video-file" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rescaleFrame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">):</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">scale</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">scale</span><span class="p">)</span>
+    <span class="n">dimensions</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">,</span> <span class="n">interpolation</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">INTER_AREA</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reading Video</span>
+<span class="n">capture</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/80C.MOV&#39;</span><span class="p">)</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">capture</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">CAP_PROP_FPS</span><span class="p">))</span>
+<span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/80C/frames&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">while</span> <span class="n">success</span><span class="p">:</span>
+    <span class="n">success</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">capture</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="c1">#     print(&#39;read a new frame:&#39;, success)</span>
+    <span class="k">if</span> <span class="n">count</span><span class="o">%</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">fps</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">rescaleFrame</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span><span class="s1">&#39;frame</span><span class="si">%d</span><span class="s1">.jpg&#39;</span><span class="o">%</span><span class="k">count</span>),image)
+<span class="c1">#         print(&#39;Successfully written frame%d!&#39;%count)</span>
+    <span class="n">count</span><span class="o">+=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_706</span><span class="o">/</span><span class="mf">761338251.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="k">while</span> <span class="n">success</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">9</span>     <span class="n">success</span><span class="p">,</span> <span class="n">image</span> <span class="o">=</span> <span class="n">capture</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="c1">#     print(&#39;read a new frame:&#39;, success)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="k">if</span> <span class="n">count</span><span class="o">%</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">fps</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="we-need-to-crop-the-image-to-focus-on-the-liquid-crystal-diplay-area-this-will-save-computational-work-br">
+<h2>We need to crop the image to focus on the liquid crystal diplay area, this will save computational work.<br><a class="headerlink" href="#we-need-to-crop-the-image-to-focus-on-the-liquid-crystal-diplay-area-this-will-save-computational-work-br" title="Permalink to this headline">¶</a></h2>
+<p>Define a crop function. Reshape and crop the image to save computation efforts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">crop</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+    <span class="n">new_image</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">h</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span><span class="n">w</span><span class="p">]</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;Images/new_image.jpg&quot;</span><span class="p">,</span> <span class="n">new_image</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_image</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, we define a plot function to save a little bit of input work.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can first use the first image in the frame directory to get an idea on what parameters we should use.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_path</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/80C/frames/frame6438.jpg&#39;</span>
+<span class="n">image</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+<span class="n">new_image</span><span class="o">=</span><span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">270</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">new_image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/get_reading_11_0.png" src="_images/get_reading_11_0.png" />
+</div>
+</div>
+<p>After we get proper parameters, we can batch crop the frames.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="n">rDir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/80C/frames&#39;</span>
+<span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/80C/cropped&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">savs</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">rDir</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">):</span>
+        <span class="n">savs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rDir</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">sav</span> <span class="ow">in</span> <span class="n">savs</span><span class="p">:</span>
+    <span class="n">image_path</span><span class="o">=</span><span class="n">sav</span>
+    <span class="n">image</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+    <span class="n">new_image</span><span class="o">=</span><span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">270</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">image_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;80C_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">.jpg&#39;</span><span class="p">),</span> <span class="n">new_image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need to have a look at the cropped images. For frames where camera moved a lot, we may need to mannually crop them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_path</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/80C/frames/frame4350.jpg&#39;</span>
+<span class="n">image</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+<span class="n">new_image</span> <span class="o">=</span> <span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">280</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">276</span><span class="p">)</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">image_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">c</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">stcik</span><span class="o">/</span><span class="n">scire</span><span class="o">/</span><span class="n">papers</span><span class="o">/</span><span class="n">muon</span><span class="o">/</span><span class="mi">80</span><span class="n">C</span><span class="o">/</span><span class="n">frames</span><span class="o">/</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;80C_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">new_image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="we-now-need-to-make-binary-image-from-the-cropped-image">
+<h2>We now need to make binary image from the cropped image.<a class="headerlink" href="#we-now-need-to-make-binary-image-from-the-cropped-image" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_bin</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">gmin</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">gmax</span><span class="o">=</span><span class="mi">255</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make a binary image from the cropped image.&quot;&quot;&quot;</span>
+    <span class="c1"># Drop the color</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+    <span class="c1"># Thresholding the image</span>
+    <span class="n">thresh</span><span class="p">,</span> <span class="n">img_bin</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">gmin</span><span class="p">,</span> <span class="n">gmax</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span><span class="p">)</span>
+    <span class="c1"># Invert the image</span>
+    <span class="n">img_bin</span> <span class="o">=</span> <span class="o">~</span><span class="n">img_bin</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;Images/Image_bin.jpg&quot;</span><span class="p">,</span> <span class="n">img_bin</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img_bin</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img_bin</span><span class="o">=</span><span class="n">make_bin</span><span class="p">(</span><span class="n">new_image</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">img_bin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/get_reading_18_0.png" src="_images/get_reading_18_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="we-now-need-to-make-final-bin-iamge-for-cv2-to-find-contours-br">
+<h2>We now need to make final bin iamge for cv2 to find contours.<br><a class="headerlink" href="#we-now-need-to-make-final-bin-iamge-for-cv2-to-find-contours-br" title="Permalink to this headline">¶</a></h2>
+<p>Firstly, we define parameters to resolve vertical and horizontal lines.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">line_min_width</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">kernal_h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span><span class="n">line_min_width</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">kernal_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">line_min_width</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img_bin_h</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span> <span class="n">kernal_h</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">img_bin_h</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/get_reading_21_0.png" src="_images/get_reading_21_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img_bin_v</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span> <span class="n">kernal_v</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">img_bin_v</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/get_reading_22_0.png" src="_images/get_reading_22_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img_bin_final</span><span class="o">=</span><span class="n">img_bin_h</span><span class="o">|</span><span class="n">img_bin_v</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">img_bin_final</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/get_reading_23_0.png" src="_images/get_reading_23_0.png" />
+</div>
+</div>
+<p>We can make the lines thicker so that the contours are easier to resolve.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">img_bin_final</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">dilate</span><span class="p">(</span><span class="n">img_bin_final</span><span class="p">,</span><span class="n">final_kernel</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">img_bin_final</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/get_reading_25_0.png" src="_images/get_reading_25_0.png" />
+</div>
+</div>
+<p>Now we can fin the contours and visualise the contours found.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Retrieve contours </span>
+<span class="n">contours</span><span class="p">,</span> <span class="n">hierarchy</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">img_bin_final</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+<span class="c1">#Create box-list</span>
+<span class="n">box</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Get position (x,y), width and height for every contour </span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">contours</span><span class="p">:</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">box</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[59, 207, 13, 3], [0, 141, 15, 10], [222, 107, 18, 8], [185, 101, 6, 10], [158, 89, 22, 31], [92, 67, 28, 55], [100, 98, 10, 16], [102, 75, 10, 16], [123, 66, 28, 55], [162, 65, 19, 13], [27, 15, 7, 25], [26, 0, 214, 210], [95, 20, 12, 9], [111, 19, 12, 9], [214, 17, 18, 10], [130, 14, 59, 17]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img_box</span> <span class="o">=</span> <span class="n">new_image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">box</span><span class="p">:</span>
+    <span class="n">img_box</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img_box</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">n</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">n</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_box</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7f7b0e82c4c0&gt;
+</pre></div>
+</div>
+<img alt="_images/get_reading_28_1.png" src="_images/get_reading_28_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="we-can-now-set-up-parameters-to-sort-the-contours-found-so-that-we-keep-our-readings-only">
+<h2>We can now set up parameters to sort the contours found so that we keep our readings only.<a class="headerlink" href="#we-can-now-set-up-parameters-to-sort-the-contours-found-so-that-we-keep-our-readings-only" title="Permalink to this headline">¶</a></h2>
+<p>Firstly, lets sort our contours, so that the boxes are well ordered.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We will use the size and position of the contourbox to filter the boxes.</span>
+<span class="k">def</span> <span class="nf">get_reading</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">contours</span><span class="p">):</span>
+    <span class="c1"># Get the width and height of the image</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">textcont</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">contours</span><span class="p">:</span>
+        <span class="c1"># Returns the location and width, height for every contour</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="c1">#         print(h/height, y/(height-y-h))</span>
+        <span class="c1"># We will only use the height of the numbers, because all numbers have about the same height but 1 is much narrower than other numbers.</span>
+        <span class="c1"># We will only use the y positions, because the x positions has a larger distribution.</span>
+        <span class="k">if</span> <span class="mf">0.5</span> <span class="o">&gt;</span> <span class="n">h</span><span class="o">/</span><span class="n">height</span> <span class="o">&gt;</span> <span class="mf">0.1</span> <span class="ow">and</span> <span class="mf">1.4</span> <span class="o">&gt;</span> <span class="n">y</span><span class="o">/</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="n">y</span><span class="o">-</span><span class="n">h</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.4</span><span class="p">:</span>
+            <span class="n">textcont</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">textcont</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">textcont</span> <span class="o">=</span> <span class="n">get_reading</span><span class="p">(</span><span class="n">new_image</span><span class="p">,</span> <span class="n">contours</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">textbox</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">textcont</span><span class="p">:</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">textbox</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">textbox</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[158, 89, 22, 31], [92, 67, 28, 55], [123, 66, 28, 55]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img_box</span> <span class="o">=</span> <span class="n">new_image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">textbox</span><span class="p">:</span>
+    <span class="n">img_box</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img_box</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">n</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">n</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">img_box</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/get_reading_34_0.png" src="_images/get_reading_34_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="now-we-can-crop-the-image-according-to-the-textboxes">
+<h2>Now we can crop the image according to the textboxes.<a class="headerlink" href="#now-we-can-crop-the-image-according-to-the-textboxes" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sort_contours</span><span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;left-to-right&quot;</span><span class="p">):</span>
+    <span class="c1"># initialize the reverse flag and sort index</span>
+    <span class="n">reverse</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># handle if we need to sort in reverse</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;right-to-left&quot;</span> <span class="ow">or</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;bottom-to-top&quot;</span><span class="p">:</span>
+        <span class="n">reverse</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># handle if we are sorting against the y-coordinate rather than</span>
+    <span class="c1"># the x-coordinate of the bounding box</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;top-to-bottom&quot;</span> <span class="ow">or</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;bottom-to-top&quot;</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># construct the list of bounding boxes and sort them from top to</span>
+    <span class="c1"># bottom</span>
+    <span class="n">boundingBoxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cnts</span><span class="p">]</span>
+    <span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">boundingBoxes</span><span class="p">)</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">boundingBoxes</span><span class="p">),</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">))</span>
+
+    <span class="c1"># return the list of sorted contours and bounding boxes</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">boundingBoxes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">textcont</span><span class="p">,</span> <span class="n">textboxes</span> <span class="o">=</span> <span class="n">sort_contours</span><span class="p">(</span><span class="n">textcont</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;left-to-right&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">textboxes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((92, 67, 28, 55), (123, 66, 28, 55), (158, 89, 22, 31))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_img</span> <span class="o">=</span> <span class="n">new_image</span><span class="p">[</span><span class="n">textboxes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span><span class="n">textboxes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">textboxes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">textboxes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="n">textboxes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">textboxes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">new_img</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s1">&#39;outs/80C_frame6438.jpg.jpg&#39;</span><span class="p">,</span> <span class="n">new_img</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+<img alt="_images/get_reading_38_1.png" src="_images/get_reading_38_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="to-batch-process-the-cropped-frames-we-need-to-make-functions">
+<h2>To batch process the cropped frames, we need to make functions.<a class="headerlink" href="#to-batch-process-the-cropped-frames-we-need-to-make-functions" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_bin</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">gmin</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">gmax</span><span class="o">=</span><span class="mi">255</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make a binary image from the cropped image.&quot;&quot;&quot;</span>
+    <span class="c1"># Drop the color</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+    <span class="c1"># Thresholding the image</span>
+    <span class="n">thresh</span><span class="p">,</span> <span class="n">img_bin</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">gmin</span><span class="p">,</span> <span class="n">gmax</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span><span class="p">)</span>
+    <span class="c1"># Invert the image</span>
+    <span class="n">img_bin</span> <span class="o">=</span> <span class="o">~</span><span class="n">img_bin</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;Images/Image_bin.jpg&quot;</span><span class="p">,</span> <span class="n">img_bin</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img_bin</span>
+
+<span class="k">def</span> <span class="nf">get_lines</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">line_min_width</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">kernal_h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span><span class="n">line_min_width</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">),</span> <span class="n">kernal_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">line_min_width</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)):</span>
+    <span class="c1"># Detect vertical lines from an image</span>
+    <span class="n">img_bin_v</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span> <span class="n">kernal_v</span><span class="p">)</span>
+    <span class="c1"># Detect horizontal lines</span>
+    <span class="n">img_bin_h</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">MORPH_OPEN</span><span class="p">,</span> <span class="n">kernal_h</span><span class="p">)</span>
+      
+    <span class="n">img_bin_final</span><span class="o">=</span><span class="n">img_bin_h</span><span class="o">|</span><span class="n">img_bin_v</span>
+    
+    <span class="n">final_kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">img_bin_final</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">dilate</span><span class="p">(</span><span class="n">img_bin_final</span><span class="p">,</span><span class="n">final_kernel</span><span class="p">,</span><span class="n">iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img_bin_final</span>
+
+<span class="k">def</span> <span class="nf">sort_contours</span><span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;left-to-right&quot;</span><span class="p">):</span>
+    <span class="c1"># initialize the reverse flag and sort index</span>
+    <span class="n">reverse</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># handle if we need to sort in reverse</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;right-to-left&quot;</span> <span class="ow">or</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;bottom-to-top&quot;</span><span class="p">:</span>
+        <span class="n">reverse</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># handle if we are sorting against the y-coordinate rather than</span>
+    <span class="c1"># the x-coordinate of the bounding box</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;top-to-bottom&quot;</span> <span class="ow">or</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;bottom-to-top&quot;</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># construct the list of bounding boxes and sort them from top to</span>
+    <span class="c1"># bottom</span>
+    <span class="n">boundingBoxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cnts</span><span class="p">]</span>
+    <span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">boundingBoxes</span><span class="p">)</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">boundingBoxes</span><span class="p">),</span>
+        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">))</span>
+
+    <span class="c1"># return the list of sorted contours and bounding boxes</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">cnts</span><span class="p">,</span> <span class="n">boundingBoxes</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_reading</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">img_path</span><span class="p">,</span> <span class="n">contours</span><span class="p">,</span> <span class="n">folder</span><span class="p">):</span>
+        <span class="c1"># Get the width and height of the image</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">textcont</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">contours</span><span class="p">:</span>
+        <span class="c1"># Returns the location and width, height for every contour</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="c1">#         print(h/height, y/(height-y-h))</span>
+        <span class="c1"># We will only use the height of the numbers, because all numbers have about the same height but 1 is much narrower than other numbers.</span>
+        <span class="c1"># We will only use the y positions, because the x positions has a larger distribution.</span>
+        <span class="k">if</span> <span class="mf">0.50</span> <span class="o">&gt;</span> <span class="n">h</span><span class="o">/</span><span class="n">height</span> <span class="o">&gt;</span> <span class="mf">0.15</span> <span class="ow">and</span> <span class="mf">1.2</span> <span class="o">&gt;</span> <span class="n">y</span><span class="o">/</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="n">y</span><span class="o">-</span><span class="n">h</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.12</span><span class="p">:</span>
+            <span class="n">textcont</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">textcont</span><span class="p">,</span> <span class="n">textboxes</span> <span class="o">=</span> <span class="n">sort_contours</span><span class="p">(</span><span class="n">textcont</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;left-to-right&quot;</span><span class="p">)</span>
+    <span class="n">new_img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">textboxes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span><span class="n">textboxes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">textboxes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">textboxes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="n">textboxes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">textboxes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]]</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">img_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">new_img</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="finally-we-can-use-the-above-defined-functions-to-batch-process-the-frames-and-save-the-detected-region-into-outs-directory">
+<h2>Finally, we can use the above defined functions to batch process the frames and save the detected region into ./outs directory.<a class="headerlink" href="#finally-we-can-use-the-above-defined-functions-to-batch-process-the-frames-and-save-the-detected-region-into-outs-directory" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">savs</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">rDir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/80C/cropped&#39;</span>
+<span class="n">out_folder</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/80C/outs&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">rDir</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">):</span>
+        <span class="n">savs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rDir</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">sav</span> <span class="ow">in</span> <span class="n">savs</span><span class="p">:</span>
+    <span class="n">image</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">sav</span><span class="p">)</span>
+    <span class="n">img_bin</span> <span class="o">=</span> <span class="n">make_bin</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">img_bin</span> <span class="o">=</span> <span class="n">get_lines</span><span class="p">(</span><span class="n">img_bin</span><span class="p">)</span>
+    <span class="c1"># Find contours for image, which will detect all the boxes</span>
+    <span class="n">contours</span><span class="p">,</span> <span class="n">hierarchy</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">img_bin</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+    <span class="n">get_reading</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">img_path</span><span class="o">=</span><span class="n">sav</span><span class="p">,</span> <span class="n">contours</span> <span class="o">=</span> <span class="n">contours</span><span class="p">,</span> <span class="n">folder</span> <span class="o">=</span> <span class="n">out_folder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="now-go-to-the-outs-directory-check-the-outputs-change-parameters-and-try-again-br">
+<h2>Now go to the ./outs directory, check the outputs. Change parameters and try again.<br><a class="headerlink" href="#now-go-to-the-outs-directory-check-the-outputs-change-parameters-and-try-again-br" title="Permalink to this headline">¶</a></h2>
+<p>I have 250 frames, only 4 of them are not correctly detect. The success rate is 98.4 %.</p>
+</div>
+<div class="section" id="if-you-have-problem-with-certain-images-you-can-go-back-to-the-manual-mode-and-see-what-happened-br">
+<h2>If you have problem with certain images, you can go back to the manual mode and see what happened.<br><a class="headerlink" href="#if-you-have-problem-with-certain-images-you-can-go-back-to-the-manual-mode-and-see-what-happened-br" title="Permalink to this headline">¶</a></h2>
+<p>I have problem with the following file, which turned out to be the reading in this image is not clear. The number ‘3’ is broken which makes the contour box split into two small one and filtered by the conditions I set in the get_reading function. If we set the lower height bound smaller, it will work.</p>
+</div>
+<div class="section" id="it-is-useful-to-make-the-detected-readings-binary-so-that-it-is-easier-to-be-recognised-by-ocr-packages">
+<h2>It is useful to make the detected readings binary so that it is easier to be recognised by OCR packages.<a class="headerlink" href="#it-is-useful-to-make-the-detected-readings-binary-so-that-it-is-easier-to-be-recognised-by-ocr-packages" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rDir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/90C/outs&#39;</span>
+<span class="n">out_folder</span><span class="o">=</span><span class="s1">&#39;/mnt/c/users/stcik/scire/papers/muon/90C/binary&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">savs</span><span class="o">=</span><span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">rDir</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">):</span>
+        <span class="n">savs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rDir</span><span class="p">,</span><span class="n">file</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">sav</span> <span class="ow">in</span> <span class="n">savs</span><span class="p">:</span>
+    <span class="n">image_path</span><span class="o">=</span><span class="n">sav</span>
+    <span class="n">image</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">sav</span><span class="p">)</span>
+    <span class="n">img_bin</span><span class="o">=</span><span class="n">make_bin</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gmin</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">gmax</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">image_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">img_bin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="temp_prog.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Temperature programme calculator and visualiser</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="LCD_readings.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Use deep learning to recognise LCD readings</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Lei Lei<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
